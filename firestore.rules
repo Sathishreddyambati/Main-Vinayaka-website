@@ -89,7 +89,7 @@ service cloud.firestore {
       // Admins can see the roster (needed for the Admin Users screen), but
       // only owners can grant or revoke access. An admin may never edit
       // their own role.
-      allow read: if isAdmin();
+      allow read: if isSignedIn() && request.auth.uid == uid;
       allow create, update, delete: if isOwner() && request.auth.uid != uid;
     }
 
