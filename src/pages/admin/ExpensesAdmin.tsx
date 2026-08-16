@@ -14,8 +14,18 @@ function formatINR(v: number) {
 
 type SortKey = 'date' | 'amount';
 
-const emptyForm = {
-  title: '', category: EXPENSE_CATEGORIES[0], amount: '', date: new Date().toISOString().slice(0, 10), description: '',
+const emptyForm: {
+  title: string;
+  category: Expense['category'];
+  amount: string;
+  date: string;
+  description: string;
+} = {
+  title: '',
+  category: EXPENSE_CATEGORIES[0],
+  amount: '',
+  date: new Date().toISOString().slice(0, 10),
+  description: '',
 };
 
 export default function ExpensesAdmin() {
