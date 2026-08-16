@@ -1,0 +1,43 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // Mirrors the Firestore admins/{uid} check — see firestore.rules.
+    function isAdmin() {
+      return isSignedIn() &&
+        firestore.exists(/databases/(default)/documents/admins/$(request.auth.uid));
+    }
+
+    function isImage() {
+      return request.resource.contentType.matches('image/.*');
+    }
+
+    function underLimit() {
+      // 10 MB per file — generous for festival photos, keeps uploads cheap.
+      return request.resource.size < 10 * 1024 * 1024;
+    }
+
+    // Festival gallery photos.
+    match /gallery/{fileName} {
+      allow read: if true;
+      allow write: if isAdmin() && isImage() && underLimit();
+    }
+
+    // Branding: hero artwork, UPI QR code, logos.
+    match /branding/{fileName} {
+      allow read: if true;
+      allow write: if isAdmin() && isImage() && underLimit();
+    }
+
+    // Deny everything else by default — including any path that might
+    // collide with the existing Realtime Database or other project assets.
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}
