@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * { @apply border-copper/10; }
+  html { scroll-behavior: smooth; }
+  body {
+    @apply bg-charcoal text-ivory font-body antialiased;
+  }
+  h1, h2, h3, h4 { @apply font-display; }
+  ::selection { @apply bg-saffron/30 text-ivory; }
+}
+
+@layer utilities {
+  .eyebrow {
+    @apply text-[11px] uppercase tracking-[0.28em] text-copper-light font-semibold;
+  }
+  .text-gradient-gold {
+    background: linear-gradient(120deg, #E08A2C 0%, #F4C77B 45%, #B9863F 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .card-glass {
+    @apply bg-charcoal-50/60 border border-copper/15 backdrop-blur-sm;
+  }
+  .hairline { @apply border-t border-copper/15; }
+  .input {
+    @apply w-full bg-charcoal-50 border border-copper/20 rounded-lg px-3.5 py-2.5 text-sm text-ivory
+      focus:outline-none focus:border-saffron placeholder:text-ivory/25;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Ember particle field used in the hero */
+.ember-field { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.ember-particle {
+  position: absolute;
+  bottom: 0;
+  width: 3px;
+  height: 3px;
+  border-radius: 999px;
+  background: radial-gradient(circle, #F4C77B 0%, rgba(244,199,123,0) 70%);
+  animation: ember 5s ease-in infinite;
+}
